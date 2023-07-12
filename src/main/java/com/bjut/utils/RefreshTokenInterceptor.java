@@ -34,7 +34,7 @@ public class RefreshTokenInterceptor implements HandlerInterceptor {
         // 2.基于TOKEN获取redis中的用户
         String type = Boolean.TRUE.equals(stringRedisTemplate.hasKey("login:user:token:" + token)) ? "user" :
                 Boolean.TRUE.equals(stringRedisTemplate.hasKey("login:merchant:token:" + token)) ? "merchant" : "admin";
-        String key = "login:" + type + ":token" + token;
+        String key = "login:" + type + ":token:" + token;
         Map<Object, Object> userMap = stringRedisTemplate.opsForHash().entries(key);
         // 3.判断用户是否存在
         if (userMap.isEmpty()) {
