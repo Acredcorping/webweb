@@ -20,6 +20,7 @@ spring:
         time-between-eviction-runs: 10s
 mybatis-plus:
   type-aliases-package: com.bjut.entity
+  mapper-locations: com.bjut.mapper/*.xml
 logging:
   level:
     com.bjut: debug

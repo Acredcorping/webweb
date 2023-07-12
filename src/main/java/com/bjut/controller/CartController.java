@@ -2,13 +2,18 @@ package com.bjut.controller;
 
 import com.bjut.dto.CartDTO;
 import com.bjut.dto.Result;
-import com.bjut.entity.Cart;
+import com.bjut.entity.CartDishShop;
+import com.bjut.entity.Dish;
+import com.bjut.entity.Shop;
+import com.bjut.mapper.CartMapper;
 import com.bjut.service.ICartService;
 import com.bjut.utils.UserHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/cart")
@@ -16,6 +21,9 @@ public class CartController {
 
     @Resource
     private ICartService cartService;
+
+    @Resource
+    private CartMapper cartMapper;
 
     @GetMapping("/add")
     public Result addCart(@RequestParam("dishId") Long dishId) {
@@ -35,9 +43,15 @@ public class CartController {
     @GetMapping("/q")
     public Result queryCartsById() {
         Long userId = UserHolder.getUser().getId();
-        List<Cart> cartList = cartService.query().eq("user_id", userId).list();
+        List<CartDishShop> cartList = cartMapper.queryUserId(userId);
+
+        List<Map<Shop, List<Dish>>> shopList = new ArrayList<>();
+
+        for (CartDishShop c : cartList) {
+
+        }
+
         return Result.ok(cartList);
     }
-
 
 }
