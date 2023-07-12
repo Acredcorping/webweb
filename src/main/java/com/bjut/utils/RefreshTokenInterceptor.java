@@ -2,13 +2,16 @@ package com.bjut.utils;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.StrUtil;
+import com.bjut.dto.MerchantDTO;
 import com.bjut.dto.UserDTO;
+import com.bjut.entity.Merchant;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import static com.bjut.utils.RedisConstants.LOGIN_USER_KEY;
@@ -29,16 +32,23 @@ public class RefreshTokenInterceptor implements HandlerInterceptor {
             return true;
         }
         // 2.基于TOKEN获取redis中的用户
-        String key = LOGIN_USER_KEY + token;
+        String type = Boolean.TRUE.equals(stringRedisTemplate.hasKey("login:user:token:" + token)) ? "user" :
+                Boolean.TRUE.equals(stringRedisTemplate.hasKey("login:merchant:token:" + token)) ? "merchant" : "admin";
+        String key = "login:" + type + ":token" + token;
         Map<Object, Object> userMap = stringRedisTemplate.opsForHash().entries(key);
         // 3.判断用户是否存在
         if (userMap.isEmpty()) {
             return true;
         }
-        // 5.将查询到的hash数据转为UserDTO
-        UserDTO userDTO = BeanUtil.fillBeanWithMap(userMap, new UserDTO(), false);
-        // 6.存在，保存用户信息到 ThreadLocal
-        UserHolder.saveUser(userDTO);
+        if(StrUtil.equals(type, "user")) {
+            // 5.将查询到的hash数据转为UserDTO
+            UserDTO userDTO = BeanUtil.fillBeanWithMap(userMap, new UserDTO(), false);
+            // 6.存在，保存用户信息到 ThreadLocal
+            UserHolder.saveUser(userDTO);
+        } else if (StrUtil.equals(type, "merchant")) {
+            MerchantDTO merchantDTO = BeanUtil.fillBeanWithMap(userMap, new MerchantDTO(), false);
+            UserHolder.saveUser(merchantDTO);
+        }
         // 7.刷新token有效期
         stringRedisTemplate.expire(key, LOGIN_USER_TTL, TimeUnit.MINUTES);
         // 8.放行
@@ -50,4 +60,18 @@ public class RefreshTokenInterceptor implements HandlerInterceptor {
         // 移除用户
         UserHolder.removeUser();
     }
+
+//    public static <T> boolean refreshToken(String token, StringRedisTemplate stringRedisTemplate, T) {
+//        String key = LOGIN_USER_KEY + token;
+//        Map<Object, Object> userMap = stringRedisTemplate.opsForHash().entries(key);
+//        // 判断用户是否存在
+//        if (userMap.isEmpty()) {
+//            return true;
+//        }
+//        // 将查询到的hash数据转为指定实体类的对象
+//        T userEntity = BeanUtil.fillBeanWithMap(userMap, T, false);
+//        // 保存用户信息到 ThreadLocal 或其他地方
+//        UserHolder.saveUser(userEntity);
+//        // 刷新token有效期
+//        stringRedisTemplate.expire(key, LOGIN_USER_TTL, TimeUnit.MINUTES);
 }

@@ -3,19 +3,19 @@ package com.bjut.service.impl;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.bjut.dto.Result;
-import com.bjut.entity.Dish;
 import com.bjut.entity.Shop;
 import com.bjut.mapper.ShopMapper;
 import com.bjut.service.IShopService;
 import com.bjut.utils.CacheClient;
 import com.bjut.utils.SystemConstants;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-
 import java.util.concurrent.TimeUnit;
 
-import static com.bjut.utils.RedisConstants.*;
+import static com.bjut.utils.RedisConstants.CACHE_SHOP_KEY;
+import static com.bjut.utils.RedisConstants.CACHE_SHOP_TTL;
 
 @Service
 public class ShopServiceImpl extends ServiceImpl<ShopMapper, Shop> implements IShopService {
@@ -44,6 +44,14 @@ public class ShopServiceImpl extends ServiceImpl<ShopMapper, Shop> implements IS
             return Result.fail("商铺不存在");
         }
         return Result.ok(shop);
+    }
+
+    @Override
+    @Transactional
+    public Result updateMyShop(Shop shop) {
+
+        updateById(shop);
+        return Result.ok();
     }
 
 }

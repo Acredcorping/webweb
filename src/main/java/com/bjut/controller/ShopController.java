@@ -32,4 +32,10 @@ public class ShopController {
     public Result queryShopMenuById(@PathVariable("id") Long id) {
         return Result.ok();
     }
+
+    @PostMapping("/update/me")
+    public Result updateMyShop(@RequestBody Shop shop) {
+
+        return Result.ok();
+    }
 }

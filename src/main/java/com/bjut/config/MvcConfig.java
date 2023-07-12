@@ -1,6 +1,7 @@
 package com.bjut.config;
 
-import com.bjut.utils.LoginInterceptor;
+import com.bjut.utils.LoginMerchantInterceptor;
+import com.bjut.utils.LoginUserInterceptor;
 import com.bjut.utils.RefreshTokenInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -20,7 +21,7 @@ public class MvcConfig implements WebMvcConfigurer {
         // token刷新的拦截器
         registry.addInterceptor(new RefreshTokenInterceptor(stringRedisTemplate)).addPathPatterns("/**").order(0);
         // 登录拦截器
-        registry.addInterceptor(new LoginInterceptor())
+        registry.addInterceptor(new LoginUserInterceptor())
                 .excludePathPatterns(
                         "/cart/**",
                         "/error",
@@ -35,5 +36,9 @@ public class MvcConfig implements WebMvcConfigurer {
                         "/user/merchant/login",
                         "/user/merchant/register"
                 ).order(1);
+        registry.addInterceptor(new LoginMerchantInterceptor())
+                .addPathPatterns(
+                        "/shop/update/me"
+                ).order(2);
     }
 }
