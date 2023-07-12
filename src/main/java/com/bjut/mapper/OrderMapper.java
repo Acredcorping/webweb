@@ -1,4 +1,7 @@
 package com.bjut.mapper;
 
-public class OrderMapper {
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.bjut.entity.Order;
+
+public interface OrderMapper extends BaseMapper<Order> {
 }
