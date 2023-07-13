@@ -2,20 +2,21 @@ package com.bjut.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
+import cn.hutool.core.collection.ListUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.bjut.dto.CartDTO;
+import com.bjut.dto.CartGroupDTO;
 import com.bjut.dto.CartInfoDTO;
 import com.bjut.dto.Result;
 import com.bjut.entity.Cart;
 import com.bjut.mapper.CartMapper;
 import com.bjut.service.ICartService;
 import com.bjut.utils.UserHolder;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -64,10 +65,22 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements IC
         return Result.ok();
     }
 
+//    @Override
+//    public Result queryAll(Long id) {
+//        List<CartInfoDTO> cartInfoDTOS = this.getBaseMapper().queryAll(id);
+//        Map<String, List<CartInfoDTO>> collect = cartInfoDTOS.stream().collect(Collectors.groupingBy(CartInfoDTO::getName));
+//        return Result.ok(collect);
+//    }
+
     @Override
     public Result queryAll(Long id) {
         List<CartInfoDTO> cartInfoDTOS = this.getBaseMapper().queryAll(id);
-        Map<String, List<CartInfoDTO>> collect = cartInfoDTOS.stream().collect(Collectors.groupingBy(CartInfoDTO::getName));
-        return Result.ok(collect);
+        List<CartGroupDTO> result = cartInfoDTOS.stream()
+                .collect(Collectors.groupingBy(CartInfoDTO::getName))
+                .entrySet().stream()
+                .map(entry -> new CartGroupDTO(entry.getKey(), entry.getValue()))
+                .collect(Collectors.toList());
+        return Result.ok(result);
     }
+
 }

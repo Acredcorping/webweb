@@ -33,7 +33,10 @@ public class MvcConfig implements WebMvcConfigurer {
                 ).order(1);
         registry.addInterceptor(new LoginMerchantInterceptor())
                 .addPathPatterns(
-                        "/shop/update/me"
+                        "/shop/update/me",
+                        "/shop/q/me",
+                        "/menu/q/me",
+                        "/menu/del/**"
                 ).order(2);
     }
 }

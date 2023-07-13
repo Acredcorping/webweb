@@ -2,6 +2,7 @@ package com.bjut;
 
 
 import com.bjut.dto.CartInfoDTO;
+import com.bjut.dto.Result;
 import com.bjut.entity.Merchant;
 import com.bjut.entity.Shop;
 import com.bjut.mapper.CartMapper;
@@ -98,20 +99,8 @@ class MidnightDelightsApplicationTests {
     }
 
     @Test
-    void addOrderTest() {
-//        Runnable task = () -> {
-//            UserDTO userDTO = new UserDTO();
-//            userDTO.setId(1050l);
-//            UserHolder.saveUser(userDTO);
-//            OrderServiceImpl orderService = new OrderServiceImpl();
-//            Map<Long, Long> map = new HashMap<>();
-//            map.put(1l, 10l);
-//            map.put(2l, 3l);
-//            map.put(3l, 9l);
-//            Result result = orderService.addOrder(1l, map);
-//            System.out.println(result.getMsg());
-//            System.out.println(1);
-//        };
-//        es.submit(task);
+    void test() {
+        Result result = shopService.queryById(1L);
+        System.out.println(result);
     }
 }

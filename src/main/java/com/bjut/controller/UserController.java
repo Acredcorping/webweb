@@ -4,6 +4,7 @@ import com.bjut.dto.LoginFormDTO;
 import com.bjut.dto.Result;
 import com.bjut.dto.UserDTO;
 import com.bjut.entity.UserInfo;
+import com.bjut.service.IAddressService;
 import com.bjut.service.IMerchantService;
 import com.bjut.service.IUserInfoService;
 import com.bjut.service.IUserService;
@@ -24,6 +25,9 @@ public class UserController {
 
     @Resource
     private IUserInfoService userInfoService;
+
+    @Resource
+    private IAddressService addressService;
 
     @PostMapping("/code")
     public Result sendCode(@RequestParam("phone") String phone, HttpSession session) {
@@ -59,6 +63,11 @@ public class UserController {
         info.setCreateTime(null);
         info.setUpdateTime(null);
         return Result.ok(info);
+    }
+
+    @GetMapping("/address/me")
+    public Result queryUserAddress() {
+        return Result.ok(addressService.queryUserAddress());
     }
 
     @PostMapping("/info/update")

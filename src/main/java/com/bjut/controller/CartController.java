@@ -9,6 +9,7 @@ import com.bjut.entity.Shop;
 import com.bjut.mapper.CartMapper;
 import com.bjut.service.ICartService;
 import com.bjut.utils.UserHolder;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
