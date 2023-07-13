@@ -2,20 +2,26 @@ package com.bjut;
 
 
 import com.bjut.dto.CartInfoDTO;
+import com.bjut.dto.Result;
+import com.bjut.dto.UserDTO;
 import com.bjut.entity.Merchant;
 import com.bjut.entity.Shop;
 import com.bjut.mapper.CartMapper;
 import com.bjut.service.IMerchantService;
 import com.bjut.service.IShopService;
+import com.bjut.service.impl.OrderServiceImpl;
 import com.bjut.utils.PasswordEncoder;
 import com.bjut.utils.RedisIdWorker;
+import com.bjut.utils.UserHolder;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.StringRedisTemplate;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -100,19 +106,16 @@ class MidnightDelightsApplicationTests {
 
     @Test
     void addOrderTest() {
-//        Runnable task = () -> {
-//            UserDTO userDTO = new UserDTO();
-//            userDTO.setId(1050l);
-//            UserHolder.saveUser(userDTO);
-//            OrderServiceImpl orderService = new OrderServiceImpl();
-//            Map<Long, Long> map = new HashMap<>();
-//            map.put(1l, 10l);
-//            map.put(2l, 3l);
-//            map.put(3l, 9l);
-//            Result result = orderService.addOrder(1l, map);
-//            System.out.println(result.getMsg());
-//            System.out.println(1);
-//        };
-//        es.submit(task);
+        UserDTO userDTO = new UserDTO();
+        userDTO.setId(1050l);
+        UserHolder.saveUser(userDTO);
+        OrderServiceImpl orderService = new OrderServiceImpl();
+        Map<Long, Long> map = new HashMap<>();
+        map.put(1l, 10l);
+        map.put(2l, 3l);
+        map.put(3l, 9l);
+        Result result = orderService.addOrder(1l, map);
+        System.out.println(result.getMsg());
+        System.out.println(1);
     }
 }

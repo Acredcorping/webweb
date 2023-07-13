@@ -30,12 +30,15 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     @Resource
     public OrderMapper orderMapper;
 
+    @Resource
+    private RedisIdWorker redisIdWorker;
+
     @Override
     public Result addOrder(Long shopId, Map<Long, Long> dishMap) {
         Long userId = UserHolder.getUser().getId();
         LocalDateTime createTime = LocalDateTime.now();
         LocalDateTime updateTime = createTime;
-        long orderId = new RedisIdWorker().nextId("order");
+        long orderId = redisIdWorker.nextId("order");
         Order order = new Order(orderId, userId, shopId, createTime, updateTime, STATUS_READY);
         save(order);
 

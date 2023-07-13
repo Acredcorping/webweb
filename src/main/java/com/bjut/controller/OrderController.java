@@ -26,5 +26,4 @@ public class OrderController {
     public Result removeById(@PathVariable("id") Long orderId) {
         return Result.ok();
     }
-
 }

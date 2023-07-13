@@ -1,5 +1,6 @@
 package com.bjut.utils;
 
+
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
@@ -28,6 +29,7 @@ public class RedisIdWorker {
         long timestamp = nowSecond - BEGIN_TIMESTAMP;
 
         String date = now.format(DateTimeFormatter.ofPattern("yyyy:MM:dd"));
+
         long count = stringRedisTemplate.opsForValue().increment("icr:" + keyPrefix + ":" + date);
 
         return timestamp << COUNT_BITS | count;
