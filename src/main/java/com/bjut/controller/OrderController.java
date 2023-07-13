@@ -17,14 +17,23 @@ public class OrderController {
     @Resource
     private OrderMapper orderMapper;
 
-    @GetMapping("/add")
-    public Result addOrder(@RequestParam("id") Long shopId, Map<Long, Long> dishMap) {
+    @PostMapping("/add")
+    public Result addOrder(@RequestParam("id") Long shopId, @RequestBody Map<Long, Long> dishMap) {
         return orderService.addOrder(shopId, dishMap);
     }
 
-    @GetMapping("/remove/{id}")
-    public Result removeById(@PathVariable("id") Long orderId) {
-        return Result.ok();
+    @GetMapping("/remove")
+    public Result removeById(@RequestParam("id") Long orderId) {
+        return orderService.removeByOrderId(orderId);
     }
 
+    @GetMapping("/q")
+    public Result queryByUserId() {
+        return orderService.queryByUserId();
+    }
+
+    @GetMapping("/update")
+    public Result updateOrder(@RequestParam("orderId") Long orderId, @RequestParam("status") int status) {
+        return orderService.updateOrder(orderId, status);
+    }
 }
