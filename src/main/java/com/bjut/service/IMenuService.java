@@ -8,4 +8,8 @@ public interface IMenuService extends IService<Dish> {
 
     public Result queryMenuByShopId(Long id);
 
+    public Result searchDishById(Long id, String content);
+
+    public Result queryMe();
+
 }
