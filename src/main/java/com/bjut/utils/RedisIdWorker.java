@@ -30,7 +30,6 @@ public class RedisIdWorker {
         String date = now.format(DateTimeFormatter.ofPattern("yyyy:MM:dd"));
         long count = stringRedisTemplate.opsForValue().increment("icr:" + keyPrefix + ":" + date);
 
-
         return timestamp << COUNT_BITS | count;
     }
 

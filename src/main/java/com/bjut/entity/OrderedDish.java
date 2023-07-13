@@ -1,6 +1,5 @@
 package com.bjut.entity;
 
-
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
@@ -10,29 +9,22 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("tb_order")
+@TableName("tb_ordered_dish")
 @AllArgsConstructor
 @NoArgsConstructor
-public class Order implements Serializable {
-
+public class OrderedDish implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @TableId
+    private Long id;
+
+    private Long dishId;
+
     private Long orderId;
 
-    private Long userId;
-
-    private Long shopId;
-
-    private LocalDateTime createTime;
-
-    private LocalDateTime updateTime;
-
-    private Integer orderStatus;
-
+    private Long dishNum;
 }

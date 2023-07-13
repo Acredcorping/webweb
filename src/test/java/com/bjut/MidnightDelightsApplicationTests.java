@@ -1,13 +1,10 @@
 package com.bjut;
 
 
-import com.bjut.dto.CartDTO;
 import com.bjut.dto.CartInfoDTO;
 import com.bjut.entity.Merchant;
 import com.bjut.entity.Shop;
 import com.bjut.mapper.CartMapper;
-import com.bjut.service.ICartService;
-
 import com.bjut.service.IMerchantService;
 import com.bjut.service.IShopService;
 import com.bjut.utils.PasswordEncoder;
@@ -19,8 +16,6 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 
 import javax.annotation.Resource;
 import java.util.List;
-
-import java.util.Set;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -54,7 +49,7 @@ class MidnightDelightsApplicationTests {
         String userName = "test";
         String password = "123456";
         String encodedPwd = PasswordEncoder.encode(password);
-        //merchantService.save(new Merchant(null, userName, encodedPwd, 1L));
+        merchantService.save(new Merchant(null, userName, encodedPwd, 1L));
     }
 
     @Test
@@ -101,5 +96,23 @@ class MidnightDelightsApplicationTests {
         long end = System.currentTimeMillis();
 
         System.out.println("time = " + (end - begin));
+    }
+
+    @Test
+    void addOrderTest() {
+//        Runnable task = () -> {
+//            UserDTO userDTO = new UserDTO();
+//            userDTO.setId(1050l);
+//            UserHolder.saveUser(userDTO);
+//            OrderServiceImpl orderService = new OrderServiceImpl();
+//            Map<Long, Long> map = new HashMap<>();
+//            map.put(1l, 10l);
+//            map.put(2l, 3l);
+//            map.put(3l, 9l);
+//            Result result = orderService.addOrder(1l, map);
+//            System.out.println(result.getMsg());
+//            System.out.println(1);
+//        };
+//        es.submit(task);
     }
 }
