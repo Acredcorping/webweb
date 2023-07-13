@@ -23,9 +23,6 @@ public class CartController {
     @Resource
     private ICartService cartService;
 
-    @Resource
-    private CartMapper cartMapper;
-
     @GetMapping("/add")
     public Result addCart(@RequestParam("dishId") Long dishId) {
         return cartService.addCart(dishId);

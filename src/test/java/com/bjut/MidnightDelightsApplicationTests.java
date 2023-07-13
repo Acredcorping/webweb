@@ -7,6 +7,8 @@ import com.bjut.entity.Shop;
 import com.bjut.mapper.CartMapper;
 import com.bjut.service.IMerchantService;
 import com.bjut.service.IShopService;
+import com.bjut.service.IUserService;
+import com.bjut.service.impl.UserServiceImpl;
 import com.bjut.utils.PasswordEncoder;
 import com.bjut.utils.RedisIdWorker;
 import lombok.extern.slf4j.Slf4j;
@@ -34,6 +36,9 @@ class MidnightDelightsApplicationTests {
     @Resource
     private CartMapper cartMapper;
 
+    @Resource
+    private IUserService userService;
+
 
     @Resource
     private StringRedisTemplate stringRedisTemplate;
@@ -44,13 +49,7 @@ class MidnightDelightsApplicationTests {
     private ExecutorService es = Executors.newFixedThreadPool(500);
 
 
-    @Test
-    void PasswordEncoderTest() {
-        String userName = "test";
-        String password = "123456";
-        String encodedPwd = PasswordEncoder.encode(password);
-        merchantService.save(new Merchant(null, userName, encodedPwd, 1L));
-    }
+
 
     @Test
     void updateTest() {
