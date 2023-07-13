@@ -38,7 +38,9 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         Long userId = UserHolder.getUser().getId();
         LocalDateTime createTime = LocalDateTime.now();
         LocalDateTime updateTime = createTime;
+
         long orderId = redisIdWorker.nextId("order");
+
         Order order = new Order(orderId, userId, shopId, createTime, updateTime, STATUS_READY);
         save(order);
 
@@ -47,13 +49,11 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
             long num = entry.getValue();
             orderedDishService.addOrderedDish(orderId, dishId, num);
         }
-
         return Result.ok();
     }
 
-
     @Override
-    public Result removeById(Long id) {
+    public Result removeByOrderId(Long id) {
         Order order = getById(id);
         if (order == null) {
             return Result.fail("id不存在");

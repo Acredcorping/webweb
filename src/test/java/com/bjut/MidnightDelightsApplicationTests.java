@@ -47,6 +47,9 @@ class MidnightDelightsApplicationTests {
     @Resource
     private RedisIdWorker redisIdWorker;
 
+    @Resource
+    private OrderServiceImpl orderService;
+
     private ExecutorService es = Executors.newFixedThreadPool(500);
 
 
@@ -109,7 +112,6 @@ class MidnightDelightsApplicationTests {
         UserDTO userDTO = new UserDTO();
         userDTO.setId(1050l);
         UserHolder.saveUser(userDTO);
-        OrderServiceImpl orderService = new OrderServiceImpl();
         Map<Long, Long> map = new HashMap<>();
         map.put(1l, 10l);
         map.put(2l, 3l);

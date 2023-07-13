@@ -9,7 +9,7 @@ import java.util.Map;
 public interface IOrderService extends IService<Order> {
     public Result addOrder(Long shopId, Map<Long, Long> dishMap);
 
-    public Result removeById(Long orderId);
+    public Result removeByOrderId(Long orderId);
 
     public Result updateOrder(Long orderId, int status);
 
