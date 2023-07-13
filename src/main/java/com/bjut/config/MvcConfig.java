@@ -22,19 +22,14 @@ public class MvcConfig implements WebMvcConfigurer {
         registry.addInterceptor(new RefreshTokenInterceptor(stringRedisTemplate)).addPathPatterns("/**").order(0);
         // 登录拦截器
         registry.addInterceptor(new LoginUserInterceptor())
+                .addPathPatterns(
+                        "/user/me",
+                        "/user/info/update",
+                        "/user/logout",
+                        "/cart/**"
+                )
                 .excludePathPatterns(
-                        "/cart/**",
-                        "/error",
-                        "/shop/**",
-                        "/menu/s/**",
-                        "/voucher/**",
-                        "/shop-type/**",
-                        "/upload/**",
-                        "/blog/hot",
-                        "/user/code",
-                        "/user/login",
-                        "/user/merchant/login",
-                        "/user/merchant/register"
+
                 ).order(1);
         registry.addInterceptor(new LoginMerchantInterceptor())
                 .addPathPatterns(

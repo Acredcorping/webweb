@@ -1,6 +1,7 @@
 package com.bjut.controller;
 
 import com.bjut.dto.CartDTO;
+import com.bjut.dto.CartInfoDTO;
 import com.bjut.dto.Result;
 import com.bjut.entity.CartDishShop;
 import com.bjut.entity.Dish;
@@ -43,15 +44,7 @@ public class CartController {
     @GetMapping("/q")
     public Result queryCartsById() {
         Long userId = UserHolder.getUser().getId();
-        List<CartDishShop> cartList = cartMapper.queryUserId(userId);
-
-        List<Map<Shop, List<Dish>>> shopList = new ArrayList<>();
-
-        for (CartDishShop c : cartList) {
-
-        }
-
-        return Result.ok(cartList);
+        return cartService.queryAll(userId);
     }
 
 }

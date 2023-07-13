@@ -15,7 +15,8 @@ import java.util.List;
 public interface CartMapper extends BaseMapper<Cart> {
 
 
-    @Select("select c.id ,m.title, m.image, c.number, s.name from tb_cart c join tb_menu m join tb_shop s on c.dish_id = m.id and m.shop_id = s.id where c.user_id = 1015")
+    @Select("select c.id ,m.title, m.image, m.price, c.number, s.name from tb_cart c join tb_menu m join tb_shop s on " +
+            "c.dish_id = m.id and m.shop_id = s.id where c.user_id = #{userId}")
     List<CartInfoDTO> queryAll(@Param("userId") Long userId);
 
 }

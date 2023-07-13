@@ -3,6 +3,7 @@ package com.bjut.utils;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
@@ -15,6 +16,7 @@ public class RedisIdWorker {
      */
     private static final int COUNT_BITS = 32;
 
+    @Resource
     private StringRedisTemplate stringRedisTemplate;
 
     public long nextId(String keyPrefix) {
@@ -32,9 +34,9 @@ public class RedisIdWorker {
         return timestamp << COUNT_BITS | count;
     }
 
-    public static void main(String[] args) {
-        long baseSecond = LocalDateTime.of(2022, 1, 1, 0, 0, 0)
-                .toEpochSecond(ZoneOffset.UTC);
-        System.out.println(baseSecond);
-    }
+//    public static void main(String[] args) {
+//        long baseSecond = LocalDateTime.of(2022, 1, 1, 0, 0, 0)
+//                .toEpochSecond(ZoneOffset.UTC);
+//        System.out.println(baseSecond);
+//    }
 }

@@ -4,6 +4,7 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.bjut.dto.CartDTO;
+import com.bjut.dto.CartInfoDTO;
 import com.bjut.dto.Result;
 import com.bjut.entity.Cart;
 import com.bjut.mapper.CartMapper;
@@ -14,6 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements ICartService {
@@ -59,5 +62,12 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements IC
         }
         removeById(id);
         return Result.ok();
+    }
+
+    @Override
+    public Result queryAll(Long id) {
+        List<CartInfoDTO> cartInfoDTOS = this.getBaseMapper().queryAll(id);
+        Map<String, List<CartInfoDTO>> collect = cartInfoDTOS.stream().collect(Collectors.groupingBy(CartInfoDTO::getName));
+        return Result.ok(collect);
     }
 }

@@ -11,6 +11,7 @@ import com.bjut.service.ICartService;
 import com.bjut.service.IMerchantService;
 import com.bjut.service.IShopService;
 import com.bjut.utils.PasswordEncoder;
+import com.bjut.utils.RedisIdWorker;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,6 +21,9 @@ import javax.annotation.Resource;
 import java.util.List;
 
 import java.util.Set;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 
 @SpringBootTest
@@ -38,6 +42,11 @@ class MidnightDelightsApplicationTests {
 
     @Resource
     private StringRedisTemplate stringRedisTemplate;
+
+    @Resource
+    private RedisIdWorker redisIdWorker;
+
+    private ExecutorService es = Executors.newFixedThreadPool(500);
 
 
     @Test
@@ -72,5 +81,25 @@ class MidnightDelightsApplicationTests {
 
         log.debug(type);
         log.debug(key);
+    }
+
+    @Test
+    void idWorkerTest() throws InterruptedException {
+        CountDownLatch countDownLatch = new CountDownLatch(300);
+        Runnable task = () -> {
+            for (int i = 0; i < 100; i++) {
+                long id = redisIdWorker.nextId("test");
+                System.out.println("id = " + id);
+            }
+            countDownLatch.countDown();
+        };
+        long begin = System.currentTimeMillis();
+        for (int i = 0; i < 300; i++) {
+            es.submit(task);
+        }
+        countDownLatch.await();
+        long end = System.currentTimeMillis();
+
+        System.out.println("time = " + (end - begin));
     }
 }

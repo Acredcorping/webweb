@@ -25,5 +25,7 @@ public class CartInfoDTO {
 
     private Integer number;
 
+    private Long price;
+
 //    private HashMap<String, DishInfo> data;
 }

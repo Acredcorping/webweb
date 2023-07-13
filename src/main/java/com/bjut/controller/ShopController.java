@@ -6,6 +6,7 @@ import com.bjut.service.IShopService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.time.LocalDateTime;
 
 @RestController
 @RequestMapping("/shop")
@@ -35,7 +36,8 @@ public class ShopController {
 
     @PostMapping("/update/me")
     public Result updateMyShop(@RequestBody Shop shop) {
-
+        shop.setUpdateTime(LocalDateTime.now());
+        shopService.updateById(shop);
         return Result.ok();
     }
 }

@@ -13,4 +13,6 @@ public interface ICartService extends IService<Cart> {
     public Result updateCart(List<CartDTO> dishes);
 
     public Result removeCartById(Long id);
+
+    public Result queryAll(Long id);
 }
